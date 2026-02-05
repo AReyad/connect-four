@@ -55,7 +55,9 @@ describe Board do
     end
 
     context 'when a column is full' do
-      subject(:full_column_board) { described_class.new [%w[x x x x], %w[x x x x], %w[x x x x]] }
+      subject(:full_column_board) do
+        described_class.new [[nil, 'x', nil, nil], [nil, 'x', nil, nil], [nil, 'x', nil, nil]]
+      end
       it 'is an invalid move' do
         invalid_input = 2
         result = full_column_board.valid_move?(invalid_input)
