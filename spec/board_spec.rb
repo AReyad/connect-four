@@ -5,7 +5,7 @@ describe Board do
     context 'when board is initialized' do
       it 'is initialized with a 6x7 array' do
         result = initialized_board.instance_variable_get(:@board)
-        expect(result).to eql(Array.new(6) { Array.new(7) })
+        expect(result).to eql(Array.new(6) { Array.new(7) { '  ' } })
       end
     end
   end
@@ -65,6 +65,11 @@ describe Board do
       end
     end
   end
+  def four_connected?(arr)
+    arr.each_cons(4).any? do |seq|
+      seq.all? { |element| element == seq.first }
+    end
+  end
 
   describe '#find_empty_cell_row' do
     context 'when board is empty' do
@@ -79,7 +84,9 @@ describe Board do
     end
 
     context 'when column has occupied cells' do
-      subject(:occupied_column_board) { described_class.new([[nil, nil, nil], [nil, 'x', nil], [nil, 'x', nil]]) }
+      subject(:occupied_column_board) do
+        described_class.new([['  ', '  ', '  '], ['  ', 'x', '  '], ['  ', 'x', '  ']])
+      end
 
       it 'returns the next row number with an empty cell within a column' do
         move = 2
@@ -93,13 +100,136 @@ describe Board do
   describe '#assign_move' do
     context 'when a move is assigned' do
       subject(:assign_board) { described_class.new }
-      let(:player) { double('Player') }
+      let(:player) { instance_double('Player') }
       before do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
       it 'places a circle on the board' do
         move = 5
         expect { assign_board.assign_move(move, player) }.to(change { assign_board.instance_variable_get(:@board) })
+      end
+    end
+  end
+
+  describe '#board_winner?' do
+    context 'when a player has 4 consecutive moves in a column' do
+      subject(:columns_board) do
+        described_class.new [[nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
+                             ["\u{1F535}", nil, nil, nil, nil, nil, nil], ["\u{1F535}", nil, nil, nil, nil, nil, nil],
+                             ["\u{1F535}", nil, nil, nil, nil, nil, nil], ["\u{1F535}", nil, nil, nil, nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [2, 0]
+        result = columns_board.board_winner?(player, move)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a player has 4 consecutive moves in a row' do
+      subject(:rows_board) do
+        described_class.new [[nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             ["\u{1F535}", "\u{1F535}", "\u{1F535}", "\u{1F535}", nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [5, 3]
+        result = rows_board.board_winner?(player, move)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a player has 4 consecutive diagonal moves bottom-right' do
+      subject(:diagonals_board) do
+        described_class.new [[nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, "\u{1F535}", nil, nil, nil],
+                             [nil, nil, nil, nil, "\u{1F535}", nil, nil],
+                             [nil, nil, nil, nil, nil, "\u{1F535}", nil],
+                             [nil, nil, nil, nil, nil, nil, "\u{1F535}"]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [2, 3]
+        result = diagonals_board.board_winner?(player, move)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a player has 4 consecutive diagonal moves bottom-left' do
+      subject(:diagonals_board) do
+        described_class.new [[nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, "\u{1F535}", nil, nil, nil],
+                             [nil, nil, "\u{1F535}", nil, nil, nil, nil],
+                             [nil, "\u{1F535}", nil, nil, nil, nil, nil],
+                             ["\u{1F535}", nil, nil, nil, nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [2, 3]
+        result = diagonals_board.board_winner?(player, move)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a player has 4 consecutive diagonal moves top-left' do
+      subject(:diagonals_board) do
+        described_class.new [["\u{1F535}", nil, nil, nil, nil, nil, nil],
+                             [nil, "\u{1F535}", nil, nil, nil, nil, nil],
+                             [nil, nil, "\u{1F535}", nil, nil, nil, nil],
+                             [nil, nil, nil, "\u{1F535}", nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [3, 3]
+        result = diagonals_board.board_winner?(player, move)
+        expect(result).to be true
+      end
+    end
+
+    context 'when a player has 4 consecutive diagonal moves top-right' do
+      subject(:diagonals_board) do
+        described_class.new [[nil, nil, nil, nil, nil, nil, "\u{1F535}"],
+                             [nil, nil, nil, nil, nil, "\u{1F535}", nil],
+                             [nil, nil, nil, nil, "\u{1F535}", nil, nil],
+                             [nil, nil, nil, "\u{1F535}", nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns true' do
+        move = [3, 3]
+        result = diagonals_board.board_winner?(player, move)
+        expect(result).to be true
       end
     end
   end
