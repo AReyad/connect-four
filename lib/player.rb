@@ -1,4 +1,6 @@
 class Player
+  attr_reader :name, :circle
+
   def initialize(name, circle)
     @name = name
     @circle = circle
