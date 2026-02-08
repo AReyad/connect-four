@@ -1,4 +1,6 @@
+require_relative 'display'
 class Board
+  include Display
   DEFAULT_CELL_VALUE = '  '.freeze
   def initialize(board = Array.new(6) { Array.new(7) { DEFAULT_CELL_VALUE } })
     @board = board
@@ -9,11 +11,11 @@ class Board
   end
 
   def valid_move?(move)
-    move.between?(1, 7) && !full_column?(move)
+    valid_column?(move) && !full_column?(move)
   end
 
   def full_column?(column)
-    board[0][column - 1] != DEFAULT_CELL_VALUE
+    board[0][column] != DEFAULT_CELL_VALUE
   end
 
   def find_empty_cell_row(column)
@@ -23,8 +25,8 @@ class Board
   end
 
   def assign_move(move, player)
-    column = move - 1
-    row = find_empty_cell_row(column)
+    row = move[0]
+    column = move[1]
     board[row][column] = player.circle
   end
 
