@@ -116,17 +116,52 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [2, 0]
-        result = columns_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [2, 0]" do
+        it 'returns true' do
+          move = [2, 0]
+          result = columns_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [3, 0]" do
+        it 'returns true' do
+          move = [3, 0]
+          result = columns_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [4, 0]" do
+        it 'returns true' do
+          move = [4, 0]
+          result = columns_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 0]" do
+        it 'returns true' do
+          move = [5, 0]
+          result = columns_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [1, 0]" do
+        it 'does not return true' do
+          move = [1, 0]
+          result = columns_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
       end
     end
 
     context 'when a player has 4 consecutive moves in a row' do
       subject(:rows_board) do
-        described_class.new [[nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
-                             [nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
+        described_class.new [[nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
                              [nil, nil, nil, nil, nil, nil, nil],
                              ["\u{1F535}", "\u{1F535}", "\u{1F535}", "\u{1F535}", nil, nil, nil]]
       end
@@ -135,10 +170,43 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [5, 3]
-        result = rows_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [5, 0]" do
+        it 'returns true' do
+          move = [5, 0]
+          result = rows_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 1]" do
+        it 'returns true' do
+          move = [5, 1]
+          result = rows_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 2]" do
+        it 'returns true' do
+          move = [5, 2]
+          result = rows_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [5, 3]" do
+        it 'returns true' do
+          move = [5, 3]
+          result = rows_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 4]" do
+        it 'does not return true' do
+          move = [5, 4]
+          result = rows_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
       end
     end
 
@@ -156,10 +224,43 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [2, 3]
-        result = diagonals_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [2, 3]" do
+        it 'returns true' do
+          move = [2, 3]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [3, 4]" do
+        it 'returns true' do
+          move = [3, 4]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [4, 5]" do
+        it 'returns true' do
+          move = [4, 5]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 6]" do
+        it 'returns true' do
+          move = [5, 6]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [1, 2]" do
+        it 'does not return true' do
+          move = [1, 2]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
       end
     end
 
@@ -177,10 +278,43 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [2, 3]
-        result = diagonals_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [2, 3]" do
+        it 'returns true' do
+          move = [2, 3]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [3, 2]" do
+        it 'returns true' do
+          move = [3, 2]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [4, 1]" do
+        it 'returns true' do
+          move = [4, 1]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [5, 0]" do
+        it 'returns true' do
+          move = [5, 0]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [1, 2]" do
+        it 'does not return true' do
+          move = [1, 2]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
       end
     end
 
@@ -198,10 +332,43 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [3, 3]
-        result = diagonals_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [3, 3]" do
+        it 'returns true' do
+          move = [3, 3]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [2, 2]" do
+        it 'returns true' do
+          move = [2, 2]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [1, 1]" do
+        it 'returns true' do
+          move = [1, 1]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [0, 0]" do
+        it 'returns true' do
+          move = [0, 0]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [1, 2]" do
+        it 'does not return true' do
+          move = [4, 4]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
       end
     end
 
@@ -219,10 +386,154 @@ describe Board do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
 
-      it 'returns true' do
-        move = [3, 3]
-        result = diagonals_board.board_winner?(player, move)
-        expect(result).to be true
+      context "when the player's move is [3, 3]" do
+        it 'returns true' do
+          move = [3, 3]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [2, 4]" do
+        it 'returns true' do
+          move = [2, 4]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+      context "when the player's move is [1, 5]" do
+        it 'returns true' do
+          move = [1, 5]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [0, 6]" do
+        it 'returns true' do
+          move = [0, 6]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be true
+        end
+      end
+
+      context "when the player's move is [3, 4]" do
+        it 'does not return true' do
+          move = [3, 4]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to_not be true
+        end
+      end
+    end
+
+    context 'when no player has 4 consecutive move in a row' do
+      subject(:row_board) do
+        described_class.new [[nil, nil, nil, nil, "\u{1F535}", "\u{1F535}", "\u{1F535}"],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil],
+                             [nil, nil, nil, nil, nil, nil, nil]]
+      end
+      let(:player) { instance_double('Player') }
+      before do
+        allow(player).to receive(:circle).and_return("\u{1F535}")
+      end
+
+      it 'returns false' do
+        move = [0, 4]
+        result = row_board.board_winner?(player, move)
+        expect(result).to be false
+      end
+
+      context 'when move is [0, 5]' do
+        it 'returns false' do
+          move = [0, 5]
+          result = row_board.board_winner?(player, move)
+          expect(result).to be false
+        end
+      end
+
+      context 'when move is [0, 6]' do
+        it 'returns false' do
+          move = [0, 6]
+          result = row_board.board_winner?(player, move)
+          expect(result).to be false
+        end
+      end
+
+      context 'when no player has 4 consecutive move in a column' do
+        subject(:column_board) do
+          described_class.new [[nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, nil, nil, nil, nil, nil],
+                               ["\u{1F535}", nil, nil, nil, nil, nil, nil],
+                               ["\u{1F535}", nil, nil, nil, nil, nil, nil],
+                               ["\u{1F535}", nil, nil, nil, nil, nil, nil]]
+        end
+        let(:player) { instance_double('Player') }
+        before do
+          allow(player).to receive(:circle).and_return("\u{1F535}")
+        end
+
+        it 'returns false' do
+          move = [3, 0]
+          result = column_board.board_winner?(player, move)
+          expect(result).to be false
+        end
+
+        context 'when move is [3, 4]' do
+          it 'returns false' do
+            move = [3, 4]
+            result = column_board.board_winner?(player, move)
+            expect(result).to be false
+          end
+        end
+
+        context 'when move is [3, 5]' do
+          it 'returns false' do
+            move = [3, 5]
+            result = column_board.board_winner?(player, move)
+            expect(result).to be false
+          end
+        end
+      end
+
+      context 'when no player has 4 consecutive move in a diagonal' do
+        subject(:diagonals_board) do
+          described_class.new [[nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, nil, nil, nil, nil, nil],
+                               [nil, nil, "\u{1F535}", nil, nil, nil, nil],
+                               [nil, "\u{1F535}", nil, nil, nil, nil, nil],
+                               ["\u{1F535}", nil, nil, nil, nil, nil, nil]]
+        end
+        let(:player) { instance_double('Player') }
+        before do
+          allow(player).to receive(:circle).and_return("\u{1F535}")
+        end
+
+        it 'returns false' do
+          move = [5, 0]
+          result = diagonals_board.board_winner?(player, move)
+          expect(result).to be false
+        end
+
+        context 'when move is [4, 1]' do
+          it 'returns false' do
+            move = [4, 1]
+            result = diagonals_board.board_winner?(player, move)
+            expect(result).to be false
+          end
+        end
+
+        context 'when move is [3, 2]' do
+          it 'returns false' do
+            move = [3, 2]
+            result = diagonals_board.board_winner?(player, move)
+            expect(result).to be false
+          end
+        end
       end
     end
   end
