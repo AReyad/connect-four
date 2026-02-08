@@ -36,8 +36,83 @@ describe Game do
       end
 
       it 'sends a msg to player class' do
+        create_name_msg = "Enter player 1's name with at least one character: "
         expect(Player).to receive(:new).with('Reyad'.blue, "\u{1F535}")
+        expect(create_game).to receive(:puts).with(create_name_msg)
         create_game.create_player("\u{1F535}", 1, :blue)
+      end
+    end
+  end
+
+  describe '#player_input' do
+    let(:player) { instance_double('Player') }
+    let(:board) { instance_double('Board') }
+    subject(:input_game) { described_class.new(board, player, player) }
+
+    context 'when input is valid' do
+      before do
+        allow(player).to receive(:move).and_return(6)
+        allow(board).to receive(:valid_move?).and_return(true)
+        allow(player).to receive(:name).and_return('name')
+      end
+      it 'returns player input' do
+        result = input_game.player_input
+        expect(result).to eq 6
+      end
+    end
+
+    context 'when input is invalid' do
+      before do
+        allow(player).to receive(:move).and_return(7)
+        allow(player).to receive(:name).and_return('name')
+        allow(board).to receive(:valid_move?).and_return(false, true)
+      end
+      it 'returns error msg' do
+        error_msg = 'Invalid input, please try again!'.red
+        expect(input_game).to receive(:puts).with(error_msg).once
+        input_game.player_input
+      end
+    end
+  end
+
+  describe '#switch_player' do
+    subject(:switch_game) { described_class.new('board', 'player1', 'player2') }
+    context 'when current player is player1' do
+      it 'changes current player to player2' do
+        switch_game.instance_variable_set(:@current_player, 'player1')
+        expect { switch_game.switch_player }.to change {
+          switch_game.instance_variable_get(:@current_player)
+        }.to 'player2'
+      end
+    end
+
+    context 'when current player is player2' do
+      it 'changes current player to player1' do
+        switch_game.instance_variable_get(:@players).rotate!
+        switch_game.instance_variable_set(:@current_player, 'player2')
+        expect { switch_game.switch_player }.to change {
+          switch_game.instance_variable_get(:@current_player)
+        }.to 'player1'
+      end
+    end
+  end
+
+  describe '#game_over?' do
+    let(:board) { instance_double('Board') }
+    subject(:game_over) { described_class.new(board, 'player', 'player2') }
+    context 'when board is full' do
+      before do
+        allow(board).to receive(:full?).and_return true
+      end
+      it 'returns true' do
+        expect(game_over).to be_game_over
+      end
+    end
+
+    context 'when there is a winner' do
+      it 'returns true' do
+        game_over.instance_variable_set(:@winner, 'player1')
+        expect(game_over).to be_game_over
       end
     end
   end
