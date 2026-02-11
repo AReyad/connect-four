@@ -25,8 +25,8 @@ class Game
       column = player_input
       row = board.find_empty_cell_row(column)
       board.assign_move([row, column], current_player)
-      board.display_board
       circle_placed(column)
+      board.display_board
       check_and_assign_winner([row, column])
       switch_player
     end
