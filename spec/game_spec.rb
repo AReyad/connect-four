@@ -68,7 +68,7 @@ describe Game do
         allow(board).to receive(:valid_move?).and_return(false, true)
       end
       it 'returns error msg' do
-        error_msg = 'Invalid input, please try again!'.red
+        error_msg = '=> Invalid input, please try again!'.red
         expect(input_game).to receive(:puts).with(error_msg).once
         input_game.player_input
       end
@@ -78,8 +78,11 @@ describe Game do
   describe '#switch_player' do
     subject(:switch_game) { described_class.new('board', 'player1', 'player2') }
     context 'when current player is player1' do
-      it 'changes current player to player2' do
+      before do
+        allow(switch_game).to receive(:players).and_return(%w[player1 player2])
         switch_game.instance_variable_set(:@current_player, 'player1')
+      end
+      it 'changes current player to player2' do
         expect { switch_game.switch_player }.to change {
           switch_game.instance_variable_get(:@current_player)
         }.to 'player2'
@@ -87,9 +90,11 @@ describe Game do
     end
 
     context 'when current player is player2' do
-      it 'changes current player to player1' do
-        switch_game.instance_variable_get(:@players).rotate!
+      before do
+        allow(switch_game).to receive(:players).and_return(%w[player2 player1])
         switch_game.instance_variable_set(:@current_player, 'player2')
+      end
+      it 'changes current player to player1' do
         expect { switch_game.switch_player }.to change {
           switch_game.instance_variable_get(:@current_player)
         }.to 'player1'
