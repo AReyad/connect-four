@@ -107,6 +107,7 @@ describe Game do
     subject(:game_over) { described_class.new(board, 'player', 'player2') }
     context 'when board is full' do
       before do
+        allow(board).to receive(:winner?).and_return false
         allow(board).to receive(:full?).and_return true
       end
       it 'returns true' do
@@ -115,8 +116,10 @@ describe Game do
     end
 
     context 'when there is a winner' do
+      before do
+        allow(board).to receive(:winner?).and_return true
+      end
       it 'returns true' do
-        game_over.instance_variable_set(:@winner, 'player1')
         expect(game_over).to be_game_over
       end
     end

@@ -90,21 +90,21 @@ describe Board do
     end
   end
 
-  describe '#assign_move' do
-    context 'when a move is assigned' do
-      subject(:assign_board) { described_class.new }
+  describe '#place_circle' do
+    context 'when a circle is placed' do
+      subject(:circle_board) { described_class.new }
       let(:player) { instance_double('Player') }
       before do
         allow(player).to receive(:circle).and_return("\u{1F535}")
       end
       it 'places a circle on the board' do
         move = 5
-        expect { assign_board.assign_move(move, player) }.to(change { assign_board.instance_variable_get(:@board) })
+        expect { circle_board.place_circle(move, player) }.to(change { circle_board.instance_variable_get(:@board) })
       end
     end
   end
 
-  describe '#board_winner?' do
+  describe '#winner?' do
     context 'when a player has 4 consecutive moves in a column' do
       subject(:columns_board) do
         described_class.new [[nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil],
@@ -119,7 +119,7 @@ describe Board do
       context "when the player's move is [2, 0]" do
         it 'returns true' do
           move = [2, 0]
-          result = columns_board.board_winner?(player, move)
+          result = columns_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -127,7 +127,7 @@ describe Board do
       context "when the player's move is [3, 0]" do
         it 'returns true' do
           move = [3, 0]
-          result = columns_board.board_winner?(player, move)
+          result = columns_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -135,7 +135,7 @@ describe Board do
       context "when the player's move is [4, 0]" do
         it 'returns true' do
           move = [4, 0]
-          result = columns_board.board_winner?(player, move)
+          result = columns_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -143,14 +143,14 @@ describe Board do
       context "when the player's move is [5, 0]" do
         it 'returns true' do
           move = [5, 0]
-          result = columns_board.board_winner?(player, move)
+          result = columns_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [1, 0]" do
         it 'does not return true' do
           move = [1, 0]
-          result = columns_board.board_winner?(player, move)
+          result = columns_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -173,7 +173,7 @@ describe Board do
       context "when the player's move is [5, 0]" do
         it 'returns true' do
           move = [5, 0]
-          result = rows_board.board_winner?(player, move)
+          result = rows_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -181,7 +181,7 @@ describe Board do
       context "when the player's move is [5, 1]" do
         it 'returns true' do
           move = [5, 1]
-          result = rows_board.board_winner?(player, move)
+          result = rows_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -189,14 +189,14 @@ describe Board do
       context "when the player's move is [5, 2]" do
         it 'returns true' do
           move = [5, 2]
-          result = rows_board.board_winner?(player, move)
+          result = rows_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [5, 3]" do
         it 'returns true' do
           move = [5, 3]
-          result = rows_board.board_winner?(player, move)
+          result = rows_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -204,7 +204,7 @@ describe Board do
       context "when the player's move is [5, 4]" do
         it 'does not return true' do
           move = [5, 4]
-          result = rows_board.board_winner?(player, move)
+          result = rows_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -227,7 +227,7 @@ describe Board do
       context "when the player's move is [2, 3]" do
         it 'returns true' do
           move = [2, 3]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -235,14 +235,14 @@ describe Board do
       context "when the player's move is [3, 4]" do
         it 'returns true' do
           move = [3, 4]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [4, 5]" do
         it 'returns true' do
           move = [4, 5]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -250,7 +250,7 @@ describe Board do
       context "when the player's move is [5, 6]" do
         it 'returns true' do
           move = [5, 6]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -258,7 +258,7 @@ describe Board do
       context "when the player's move is [1, 2]" do
         it 'does not return true' do
           move = [1, 2]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -281,7 +281,7 @@ describe Board do
       context "when the player's move is [2, 3]" do
         it 'returns true' do
           move = [2, 3]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -289,14 +289,14 @@ describe Board do
       context "when the player's move is [3, 2]" do
         it 'returns true' do
           move = [3, 2]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [4, 1]" do
         it 'returns true' do
           move = [4, 1]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -304,7 +304,7 @@ describe Board do
       context "when the player's move is [5, 0]" do
         it 'returns true' do
           move = [5, 0]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -312,7 +312,7 @@ describe Board do
       context "when the player's move is [1, 2]" do
         it 'does not return true' do
           move = [1, 2]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -335,7 +335,7 @@ describe Board do
       context "when the player's move is [3, 3]" do
         it 'returns true' do
           move = [3, 3]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -343,14 +343,14 @@ describe Board do
       context "when the player's move is [2, 2]" do
         it 'returns true' do
           move = [2, 2]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [1, 1]" do
         it 'returns true' do
           move = [1, 1]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -358,7 +358,7 @@ describe Board do
       context "when the player's move is [0, 0]" do
         it 'returns true' do
           move = [0, 0]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -366,7 +366,7 @@ describe Board do
       context "when the player's move is [1, 2]" do
         it 'does not return true' do
           move = [4, 4]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -389,7 +389,7 @@ describe Board do
       context "when the player's move is [3, 3]" do
         it 'returns true' do
           move = [3, 3]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -397,14 +397,14 @@ describe Board do
       context "when the player's move is [2, 4]" do
         it 'returns true' do
           move = [2, 4]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
       context "when the player's move is [1, 5]" do
         it 'returns true' do
           move = [1, 5]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -412,7 +412,7 @@ describe Board do
       context "when the player's move is [0, 6]" do
         it 'returns true' do
           move = [0, 6]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be true
         end
       end
@@ -420,7 +420,7 @@ describe Board do
       context "when the player's move is [3, 4]" do
         it 'does not return true' do
           move = [3, 4]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to_not be true
         end
       end
@@ -442,14 +442,14 @@ describe Board do
 
       it 'returns false' do
         move = [0, 4]
-        result = row_board.board_winner?(player, move)
+        result = row_board.winner?(player, move)
         expect(result).to be false
       end
 
       context 'when move is [0, 5]' do
         it 'returns false' do
           move = [0, 5]
-          result = row_board.board_winner?(player, move)
+          result = row_board.winner?(player, move)
           expect(result).to be false
         end
       end
@@ -457,7 +457,7 @@ describe Board do
       context 'when move is [0, 6]' do
         it 'returns false' do
           move = [0, 6]
-          result = row_board.board_winner?(player, move)
+          result = row_board.winner?(player, move)
           expect(result).to be false
         end
       end
@@ -478,14 +478,14 @@ describe Board do
 
         it 'returns false' do
           move = [3, 0]
-          result = column_board.board_winner?(player, move)
+          result = column_board.winner?(player, move)
           expect(result).to be false
         end
 
         context 'when move is [3, 4]' do
           it 'returns false' do
             move = [3, 4]
-            result = column_board.board_winner?(player, move)
+            result = column_board.winner?(player, move)
             expect(result).to be false
           end
         end
@@ -493,7 +493,7 @@ describe Board do
         context 'when move is [3, 5]' do
           it 'returns false' do
             move = [3, 5]
-            result = column_board.board_winner?(player, move)
+            result = column_board.winner?(player, move)
             expect(result).to be false
           end
         end
@@ -515,14 +515,14 @@ describe Board do
 
         it 'returns false' do
           move = [5, 0]
-          result = diagonals_board.board_winner?(player, move)
+          result = diagonals_board.winner?(player, move)
           expect(result).to be false
         end
 
         context 'when move is [4, 1]' do
           it 'returns false' do
             move = [4, 1]
-            result = diagonals_board.board_winner?(player, move)
+            result = diagonals_board.winner?(player, move)
             expect(result).to be false
           end
         end
@@ -530,7 +530,7 @@ describe Board do
         context 'when move is [3, 2]' do
           it 'returns false' do
             move = [3, 2]
-            result = diagonals_board.board_winner?(player, move)
+            result = diagonals_board.winner?(player, move)
             expect(result).to be false
           end
         end
