@@ -74,5 +74,3 @@ class Game
 
   attr_accessor :current_player, :winner
 end
-
-Game.new.run
