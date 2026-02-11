@@ -27,13 +27,13 @@ module Display
   end
 
   def final_message
-    return winner_message if winner
+    return winner_message if board.winner?(current_player)
 
     full_board_message
   end
 
   def winner_message
-    puts "Player #{winner.name} won!"
+    puts "Player #{current_player.name} won!"
   end
 
   def full_board_message

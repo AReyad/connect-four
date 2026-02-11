@@ -3,7 +3,10 @@ require_relative 'win_detection'
 class Board
   include WinDetection
   include Display
+
   DEFAULT_CELL_VALUE = '  '.freeze
+  @current_move = nil
+
   def initialize(board = Array.new(6) { Array.new(7) { DEFAULT_CELL_VALUE } })
     @board = board
   end
@@ -26,13 +29,14 @@ class Board
     row
   end
 
-  def assign_move(move, player)
-    row = move[0]
-    column = move[1]
+  def place_circle(move, player)
+    column = move
+    row = find_empty_cell_row(column)
+    assign_move(row, column)
     board[row][column] = player.circle
   end
 
-  def board_winner?(player, move)
+  def winner?(player, move = current_move)
     row = move[0]
     column = move[1]
     filtered_cords(row, column).any? do |cords|
@@ -44,6 +48,10 @@ class Board
 
   include WinDetection
 
+  def assign_move(row, column)
+    self.current_move = [row, column]
+  end
+
   def valid_row?(row)
     row.between?(0, 5) # 0 lowest row number available, 5 highest row number available within the board
   end
@@ -53,4 +61,5 @@ class Board
   end
 
   attr_reader :board
+  attr_accessor :current_move
 end

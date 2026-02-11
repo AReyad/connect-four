@@ -10,7 +10,6 @@ class Game
     @board = board
     @players = [@player1 = player1, @player2 = player2]
     @current_player = randomize_first_turn
-    @winner = nil
   end
 
   def run
@@ -20,14 +19,14 @@ class Game
   end
 
   def play
-    until game_over?
+    loop do
       player_turn_msg
-      column = player_input
-      row = board.find_empty_cell_row(column)
-      board.assign_move([row, column], current_player)
-      circle_placed(column)
+      move = player_input
+      board.place_circle(move, current_player)
+      circle_placed(move)
       board.display_board
-      check_and_assign_winner([row, column])
+      break if game_over?
+
       switch_player
     end
   end
@@ -53,14 +52,10 @@ class Game
   end
 
   def game_over?
-    !winner.nil? || board.full?
+    board.winner?(current_player) || board.full?
   end
 
   private
-
-  def check_and_assign_winner(move)
-    self.winner = current_player if board.board_winner?(current_player, move)
-  end
 
   def randomize_first_turn
     players.shuffle![0]
