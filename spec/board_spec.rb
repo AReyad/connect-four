@@ -365,7 +365,7 @@ describe Board do
 
       context "when the player's move is [1, 2]" do
         it 'does not return true' do
-          move = [4, 4]
+          move = [1, 2]
           result = diagonals_board.winner?(player, move)
           expect(result).to_not be true
         end
