@@ -35,7 +35,6 @@ module WinDetection
   end
 
   # returns all possible winning diagonals from the given position(player's move)
-
   def diagonal_cords(row, column)
     result = []
 
