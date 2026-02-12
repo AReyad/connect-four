@@ -67,5 +67,5 @@ class Game
 
   attr_reader :player1, :player2, :board, :players
 
-  attr_accessor :current_player, :winner
+  attr_accessor :current_player
 end
