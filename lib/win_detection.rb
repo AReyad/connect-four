@@ -1,41 +1,41 @@
 module WinDetection
   POSSIBLE_WINNING_POSITIONS = [[0, 1, 2, 3], [0, -1, -2, -3], [0, 1, 2, -1], [0, -1, -2, 1]].freeze
 
-  def filtered_cords(row, column)
-    cords = column_cords(row, column) + row_cords(row, column) + diagonal_cords(row, column)
-    cords.reject { |array| array.length < 4 }
+  def filtered_coords(row, column)
+    coords = column_coords(row, column) + row_coords(row, column) + diagonal_coords(row, column)
+    coords.reject { |array| array.length < 4 }
   end
 
   # returns all possible winning columns from the given position(player's move)
-  def column_cords(row, column)
+  def column_coords(row, column)
     result = []
     POSSIBLE_WINNING_POSITIONS.each do |positions|
-      cords_array = []
+      coords_array = []
       positions.each do |position|
         new_col = position + column
-        cords_array << [row, new_col] if valid_column?(new_col)
+        coords_array << [row, new_col] if valid_column?(new_col)
       end
-      result << cords_array
+      result << coords_array
     end
     result
   end
 
   # returns all possible winning rows from the given position(player's move)
-  def row_cords(row, column)
+  def row_coords(row, column)
     result = []
     POSSIBLE_WINNING_POSITIONS.each do |positions|
-      cords_array = []
+      coords_array = []
       positions.each do |position|
         new_row = position + row
-        cords_array << [new_row, column] if valid_row?(new_row)
+        coords_array << [new_row, column] if valid_row?(new_row)
       end
-      result << cords_array
+      result << coords_array
     end
     result
   end
 
   # returns all possible winning diagonals from the given position(player's move)
-  def diagonal_cords(row, column)
+  def diagonal_coords(row, column)
     result = []
 
     POSSIBLE_WINNING_POSITIONS.each do |positions|

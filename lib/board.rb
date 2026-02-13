@@ -39,8 +39,8 @@ class Board
   def winner?(player, move = current_move)
     row = move[0]
     column = move[1]
-    filtered_cords(row, column).any? do |cords|
-      cords.all? { |cord| board[cord[0]][cord[1]] == player.circle }
+    filtered_coords(row, column).any? do |coords|
+      coords.all? { |coord| board[coord[0]][coord[1]] == player.circle }
     end
   end
 
